@@ -13,7 +13,7 @@ import {
     TextInput
 } from 'react-native';
 
-class Phones extends Component {
+class Campaigns extends Component {
     constructor(props) {
         super(props);
 
@@ -36,12 +36,12 @@ class Phones extends Component {
     }
 
     getItems() {
-        fetch(appConfig.url + 'api/items/get', {
+        let url = 'http://dsp1.epomstaging.com/demand/management/campaigns/list';
+        fetch(url, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': appConfig.access_token
+                'Content-Type': 'application/json'
             }
         })
             .then((response) => response.json())
@@ -98,7 +98,7 @@ class Phones extends Component {
             >
                 <View style={styles.row}>
                     <Text style={styles.rowText}>
-                        {rowData.name} - {rowData.phone}
+                        {rowData.name} - {rowData.status.name}
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -204,7 +204,7 @@ class Phones extends Component {
                             onPress={() => this.clearSearchQuery()}
                         >
                             <Text style={styles.textLarge}>
-                                Phones
+                                Campaigns
                             </Text>
                         </TouchableWithoutFeedback>
                     </View>
@@ -214,7 +214,6 @@ class Phones extends Component {
                             underlayColor='#ddd'
                         >
                             <Text style={styles.textSmall}>
-                                Search
                             </Text>
                         </TouchableWithoutFeedback>
                     </View>
@@ -276,7 +275,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        marginRight: 20,
+        marginRight: 60,
         fontWeight: 'bold',
         color: 'white'
     },
@@ -323,4 +322,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Phones;
+export default Campaigns;
