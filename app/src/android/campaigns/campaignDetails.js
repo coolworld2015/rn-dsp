@@ -6,46 +6,40 @@ import {
     Text,
     View,
     TouchableHighlight,
-    TouchableWithoutFeedback,
-    ScrollView,
-    BackAndroid
+	TouchableWithoutFeedback,
+    ScrollView
 } from 'react-native';
 
-class PhoneDetails extends Component {
+class CampaignDetails extends Component {
     constructor(props) {
         super(props);
-
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            if (this.props.navigator) {
-                this.props.navigator.pop();
-            }
-            return true;
-        });
-
-        this.state = {
+		
+		this.state = {
             name: ''
         };
+		
+		if (props.data) {
+			let d = new Date(props.data.updated);
 
-        if (props.data) {
-            this.state = {
-                id: props.data.id,
-                name: props.data.name,
-                phone: props.data.phone,
-                street: props.data.street,
-                house: props.data.house,
-                apt: props.data.apt,
-                index: props.data.index
-            };
-        }
-    }
-
+			this.state = {
+				id: props.data.id,
+				name: props.data.name,
+				updated: d.toLocaleString(),
+				status: props.data.status.name,
+				winRate: props.data.winRate,
+				spend: props.data.spend,
+				impressions: props.data.impressions,
+				creatives: props.data.creatives
+			};
+		}
+	}
     goBack() {
         this.props.navigator.pop();
     }
 
     render() {
         return (
-            <View style={styles.container}>
+			<View style={styles.container}>
                 <View style={styles.header}>
                     <View>
                         <TouchableWithoutFeedback
@@ -75,7 +69,7 @@ class PhoneDetails extends Component {
                         </TouchableWithoutFeedback>
                     </View>
                 </View>
-
+				
                 <ScrollView>
                     <View style={styles.form}>
                         <View style={styles.itemBlock}>
@@ -91,55 +85,66 @@ class PhoneDetails extends Component {
 
                         <View style={styles.itemBlock}>
                             <Text style={styles.itemTextBold}>
-                                Phone:
+                                Status:
                             </Text>
                             <View style={styles.itemWrap}>
                                 <Text style={styles.itemText}>
-                                    {this.state.phone}
+                                    {this.state.status}
                                 </Text>
                             </View>
                         </View>
 
                         <View style={styles.itemBlock}>
                             <Text style={styles.itemTextBold}>
-                                Street:
+                                Updated:
                             </Text>
                             <View style={styles.itemWrap}>
                                 <Text style={styles.itemText}>
-                                    {this.state.street}
+                                    {this.state.updated}
                                 </Text>
                             </View>
                         </View>
 
                         <View style={styles.itemBlock}>
                             <Text style={styles.itemTextBold}>
-                                House:
+                                WinRate:
                             </Text>
                             <View style={styles.itemWrap}>
                                 <Text style={styles.itemText}>
-                                    {this.state.house}
+                                    {this.state.winRate}
                                 </Text>
                             </View>
                         </View>
 
                         <View style={styles.itemBlock}>
                             <Text style={styles.itemTextBold}>
-                                Apt:
+                                Spend:
                             </Text>
                             <View style={styles.itemWrap}>
                                 <Text style={styles.itemText}>
-                                    {this.state.apt}
+                                    {this.state.spend}
                                 </Text>
                             </View>
                         </View>
 
                         <View style={styles.itemBlock}>
                             <Text style={styles.itemTextBold}>
-                                Zip:
+                                Impressions:
                             </Text>
                             <View style={styles.itemWrap}>
                                 <Text style={styles.itemText}>
-                                    {this.state.index}
+                                    {this.state.impressions}
+                                </Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.itemBlock}>
+                            <Text style={styles.itemTextBold}>
+                                Creatives:
+                            </Text>
+                            <View style={styles.itemWrap}>
+                                <Text style={styles.itemText}>
+                                    {this.state.creatives}
                                 </Text>
                             </View>
                         </View>
@@ -209,11 +214,6 @@ const styles = StyleSheet.create({
     itemBlock: {
         flexDirection: 'row'
     },
-    itemWrap: {
-        flex: 1,
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
     itemTextBold: {
         fontSize: 20,
         textAlign: 'left',
@@ -253,4 +253,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PhoneDetails;
+export default CampaignDetails;

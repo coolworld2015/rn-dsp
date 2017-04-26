@@ -36,6 +36,10 @@ class Campaigns extends Component {
     }
 
     getItems() {
+		this.setState({
+			serverError: false
+		});		
+		
         let url = 'http://dsp1.epomstaging.com/demand/management/campaigns/list';
         fetch(url, {
             method: 'get',
@@ -56,7 +60,8 @@ class Campaigns extends Component {
             })
             .catch((error) => {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					dataSource: this.state.dataSource.cloneWithRows([]),
                 });
             })
             .finally(() => {
@@ -134,7 +139,7 @@ class Campaigns extends Component {
         }
 
         let arr = [].concat(this.state.responseData);
-        let items = arr.filter((el) => el.phone.toLowerCase().indexOf(text.toLowerCase()) !== -1);
+        let items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) !== -1);
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,

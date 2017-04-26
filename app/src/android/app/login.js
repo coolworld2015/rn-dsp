@@ -10,7 +10,6 @@ import {
     ScrollView,
     ActivityIndicator,
     TextInput,
-    BackAndroid,
     Dimensions
 } from 'react-native';
 
@@ -18,15 +17,10 @@ class Login extends Component {
     constructor(props) {
         super(props);
 
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            if (this.props.navigator) {
-                this.props.navigator.pop();
-            }
-            return true;
-        });
-
         this.state = {
             showProgress: false,
+            username: '1',
+            password: '1',
             bugANDROID: ''
         }
     }
@@ -38,8 +32,8 @@ class Login extends Component {
     }
 
     onLogin() {
-        if (this.state.username === undefined ||
-            this.state.password === undefined) {
+        if (this.state.username === undefined || this.state.username === '' ||
+            this.state.password === undefined || this.state.password === '') {
             this.setState({
                 badCredentials: true
             });
@@ -51,12 +45,14 @@ class Login extends Component {
             bugANDROID: ' '
         });
 
-        fetch(window.appConfig.url + 'api/login', {
+        var url = appConfig.url;
+
+        fetch(appConfig.url + 'api/login', {
             method: 'post',
             body: JSON.stringify({
                 name: this.state.username,
                 pass: this.state.password,
-                description: 'IOS'
+                description: 'Android'
             }),
             headers: {
                 'Accept': 'application/json',
@@ -67,25 +63,28 @@ class Login extends Component {
             .then((responseData) => {
                 if (responseData.token) {
                     appConfig.access_token = responseData.token;
+
                     this.setState({
                         badCredentials: false
                     });
 
                     this.props.onLogin();
-
                 } else {
                     this.setState({
-                        badCredentials: true,
-                        showProgress: false
+                        badCredentials: true
                     });
                 }
             })
             .catch((error) => {
                 this.setState({
-                    badCredentials: true,
-                    showProgress: false
+                    badCredentials: true
                 });
             })
+            .finally(() => {
+                this.setState({
+                    showProgress: false
+                });
+            });
     }
 
     render() {
@@ -98,16 +97,16 @@ class Login extends Component {
         }
 
         return (
-            <ScrollView style={{backgroundColor: 'whitesmoke'}} keyboardShouldPersistTaps={true}>
+            <ScrollView style={{backgroundColor: 'whitesmoke'}} keyboardShouldPersistTaps="always">
                 <View style={styles.container}>
-                    <View style={styles.logo}>
-                        <Image style={{marginBottom: 40}}
-                               source={require('../../../img/epom-logo.png')}
-                        />
+                    <Image style={styles.logo}
+                           source={require('../../../img/logo.png')}
+                    />
+                    <View style={styles.headerContainer}>
+                        <Text style={styles.heading}>
+                            EPOM-DSP
+                        </Text>
                     </View>
-                    <Text style={styles.heading}>
-                        EPOM-DSP
-                    </Text>
                     <TextInput
                         underlineColorAndroid='rgba(0,0,0,0)'
                         onChangeText={(text) => this.setState({
@@ -189,38 +188,21 @@ const styles = StyleSheet.create({
         flex: 1
     },
     logo: {
-        backgroundColor: 'black',
-        padding: 20,
-        margin: 10,
-        paddingTop: 60,
+        width: 150,
+        height: 150,
+        paddingTop: 140,
         borderRadius: 20,
+    },
+    headerContainer: {
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     heading: {
         fontSize: 30,
-        margin: 10,
-        fontWeight: 'bold',
-        color: 'black'
-    },
-    loginInput: {
-        height: 50,
         marginTop: 10,
-        padding: 4,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 5,
         color: 'black',
-        backgroundColor: 'white'
-    },
-    formInput: {
-        height: 50,
-        marginTop: 10,
-        padding: 4,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 5,
-        color: 'black'
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
     button: {
         height: 50,
@@ -228,6 +210,7 @@ const styles = StyleSheet.create({
         borderColor: '#48BBEC',
         alignSelf: 'stretch',
         marginTop: 10,
+        margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5
@@ -238,7 +221,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     loader: {
-        marginTop: 40
+        marginTop: 20
     },
     error: {
         color: 'red',
