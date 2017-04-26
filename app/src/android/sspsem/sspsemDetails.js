@@ -7,12 +7,20 @@ import {
     View,
     TouchableHighlight,
 	TouchableWithoutFeedback,
-    ScrollView
+    ScrollView,
+	BackAndroid
 } from 'react-native';
 
 class CampaignDetails extends Component {
     constructor(props) {
         super(props);
+
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            if (this.props.navigator) {
+                this.props.navigator.pop();
+            }
+            return true;
+        });
 		
 		this.state = {
             name: ''

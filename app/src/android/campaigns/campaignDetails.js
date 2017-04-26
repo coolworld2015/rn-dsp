@@ -7,12 +7,20 @@ import {
     View,
     TouchableHighlight,
 	TouchableWithoutFeedback,
-    ScrollView
+    ScrollView,
+	BackAndroid
 } from 'react-native';
 
 class CampaignDetails extends Component {
     constructor(props) {
         super(props);
+		
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            if (this.props.navigator) {
+                this.props.navigator.pop();
+            }
+            return true;
+        });		
 		
 		this.state = {
             name: ''
@@ -26,10 +34,10 @@ class CampaignDetails extends Component {
 				name: props.data.name,
 				updated: d.toLocaleString(),
 				status: props.data.status.name,
-				winRate: props.data.winRate,
-				spend: props.data.spend,
-				impressions: props.data.impressions,
-				creatives: props.data.creatives
+				winRate: props.data.winRate.toString(),
+				spend: props.data.spend.toString(),
+				impressions: props.data.impressions.toString(),
+				creatives: props.data.creatives.toString()
 			};
 		}
 	}
