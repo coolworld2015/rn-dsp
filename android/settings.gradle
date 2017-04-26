@@ -1,0 +1,3 @@
+rootProject.name = 'rnDSP'
+
+include ':app'
