@@ -13,9 +13,9 @@ import {
     TextInput
 } from 'react-native';
 
-import AuditDetails from './auditDetails';
+import SspsemDetails from './sspsemDetails';
 
-class Audit extends Component {
+class Sspsem extends Component {
     constructor(props) {
         super(props);
 
@@ -70,9 +70,9 @@ class Audit extends Component {
     showDetails(rowData) {
         this.props.navigator.push({
             title: rowData.name,
-            component: AuditDetails,
+            component: SspsemDetails,
             passProps: {
-                pushEvent: rowData
+                data: rowData
             }
         });
     }
@@ -273,4 +273,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Audit;
+export default Sspsem;
