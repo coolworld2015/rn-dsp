@@ -124,15 +124,6 @@ class CampaignDetails extends Component {
                             </View>
                         </View>
 
-                        <TouchableHighlight
-                            onPress={() => this.goBack()}
-                            style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                Back
-                            </Text>
-                        </TouchableHighlight>
-
-                        <Text>{this.state.bugANDROID}</Text>
                     </View>
                 </ScrollView>
             </View>
