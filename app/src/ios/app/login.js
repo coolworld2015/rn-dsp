@@ -85,14 +85,14 @@ class Login extends Component {
         return (
             <ScrollView style={{backgroundColor: 'whitesmoke'}} keyboardShouldPersistTaps={true}>
                 <View style={styles.container}>
-                    <View style={styles.logo}>
-                        <Image style={{marginBottom: 40}}
-                               source={require('../../../img/epom-logo.png')}
-                        />
-                    </View>
+                    <Image style={styles.logo}
+                           source={require('../../../img/logo.png')}
+                    />
+                    <View style={styles.headerContainer}>
                         <Text style={styles.heading}>
                             EPOM-DSP
                         </Text>
+                    </View>
                     <TextInput
                         onChangeText={(text) => this.setState({
                             username: text,
@@ -148,16 +148,17 @@ const styles = StyleSheet.create({
         flex: 1
     },
     logo: {
-        backgroundColor: 'black',
-        padding: 20,
-        margin: 10,
-        paddingTop: 60,
+        width: 150,
+        height: 150,
+        paddingTop: 140,
         borderRadius: 20,
     },
     heading: {
         fontSize: 30,
-        margin: 10,
-        fontWeight: 'bold'
+        marginTop: 10,
+        color: 'black',
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
     loginInput: {
         height: 50,

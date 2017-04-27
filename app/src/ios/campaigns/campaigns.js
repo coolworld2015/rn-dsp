@@ -83,7 +83,7 @@ class Campaigns extends Component {
             title: rowData.name,
             component: CampaignDetails,
             passProps: {
-                pushEvent: rowData
+                data: rowData
             }
         });
     }

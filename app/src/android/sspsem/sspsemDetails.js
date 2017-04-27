@@ -11,7 +11,7 @@ import {
 	BackAndroid
 } from 'react-native';
 
-class CampaignDetails extends Component {
+class SspsemDetails extends Component {
     constructor(props) {
         super(props);
 
@@ -307,4 +307,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CampaignDetails;
+export default SspsemDetails;

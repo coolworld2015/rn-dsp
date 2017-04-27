@@ -13,17 +13,17 @@ class CampaignDetails extends Component {
     constructor(props) {
         super(props);
 
-        let d = new Date(props.pushEvent.updated);
+        let d = new Date(props.data.updated);
 
         this.state = {
-            id: props.pushEvent.id,
-            name: props.pushEvent.name,
+            id: props.data.id,
+            name: props.data.name,
             updated: d.toLocaleString(),
-            status: props.pushEvent.status.name,
-            winRate: props.pushEvent.winRate,
-            spend: props.pushEvent.spend,
-            impressions: props.pushEvent.impressions,
-            creatives: props.pushEvent.creatives
+            status: props.data.status.name,
+            winRate: props.data.winRate,
+            spend: props.data.spend,
+            impressions: props.data.impressions,
+            creatives: props.data.creatives
         };
     }
 

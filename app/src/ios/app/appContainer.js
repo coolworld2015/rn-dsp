@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import Campaigns from '../campaigns/campaigns';
-import Audit from '../audit/audit';
+import Sspsem from '../sspsem/sspsem';
 
 class AppContainer extends Component {
     constructor(props) {
@@ -36,7 +36,7 @@ class AppContainer extends Component {
                         style={{
                             flex: 1
                         }}
-                        ref="phones"
+                        ref="campaigns"
                         initialRoute={{
                             component: Campaigns,
                             title: 'Campaigns'
@@ -47,16 +47,16 @@ class AppContainer extends Component {
                 <TabBarIOS.Item
                     title="SSP EM"
                     icon={require('../../../img/sspsem.png')}
-                    selected={this.state.selectedTab === 'Audit'}
-                    onPress={() => this.setState({selectedTab: 'Audit'})}>
+                    selected={this.state.selectedTab === 'Sspsem'}
+                    onPress={() => this.setState({selectedTab: 'Sspsem'})}>
 
                     <NavigatorIOS
                         style={{
                             flex: 1
                         }}
-                        ref="audit"
+                        ref="sspsem"
                         initialRoute={{
-                            component: Audit,
+                            component: Sspsem,
                             title: 'SSP Endpoints Manager',
                         }}
                     />
