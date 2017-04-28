@@ -27,7 +27,7 @@ class ViewooDetails extends Component {
     }
 
     getItems() {
-        let url = 'http://viewoo.tv/movies/' + this.state.slug.toLowerCase();
+        let url = 'http://viewoo.tv/api/movies/' + this.state.slug.toLowerCase();
         console.log(url)
         //let url = 'http://dsp1.epomstaging.com/demand/management/campaigns/list';
         fetch(url, {
@@ -41,7 +41,7 @@ class ViewooDetails extends Component {
             .then((responseData) => {
                 console.log(responseData)
                 this.setState({
-                    //description: responseData.description
+                    description: responseData.description
                 });
             })
             .catch((error) => {
