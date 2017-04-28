@@ -8,6 +8,7 @@ import {
 
 import Campaigns from '../campaigns/campaigns';
 import Sspsem from '../sspsem/sspsem';
+import AllRNComponents from '../components/components';
 
 class AppContainer extends Component {
     constructor(props) {
@@ -58,6 +59,24 @@ class AppContainer extends Component {
                         initialRoute={{
                             component: Sspsem,
                             title: 'SSP Endpoints Manager',
+                        }}
+                    />
+                </TabBarIOS.Item>
+
+                <TabBarIOS.Item
+                    title="Demo"
+                    icon={require('../../../img/images.png')}
+                    selected={this.state.selectedTab === 'Demo'}
+                    onPress={() => this.setState({selectedTab: 'Demo'})}>
+
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        ref="sspsem"
+                        initialRoute={{
+                            component: AllRNComponents,
+                            title: 'Demo',
                         }}
                     />
                 </TabBarIOS.Item>
