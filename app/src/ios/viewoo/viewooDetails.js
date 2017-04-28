@@ -5,26 +5,56 @@ import {
     StyleSheet,
     Text,
     View,
+    Image,
     TouchableHighlight,
     ScrollView
 } from 'react-native';
 
-class CampaignDetails extends Component {
+class ViewooDetails extends Component {
     constructor(props) {
         super(props);
 
-        let d = new Date(props.data.updated);
-
         this.state = {
-            id: props.data.id,
-            name: props.data.name,
-            updated: d.toLocaleString(),
-            status: props.data.status.name,
-            winRate: props.data.winRate,
-            spend: props.data.spend,
-            impressions: props.data.impressions,
-            creatives: props.data.creatives
+            name: props.data.title,
+            slug: props.data.slug,
+            url: 'http://viewoo.tv' + props.data.poster.large_path
         };
+        //this.getItems();
+    }
+
+    componentDidMount() {
+        //this.getItems();
+    }
+
+    getItems() {
+        let url = 'http://viewoo.tv/movies/' + this.state.slug.toLowerCase();
+        console.log(url)
+        //let url = 'http://dsp1.epomstaging.com/demand/management/campaigns/list';
+        fetch(url, {
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log(responseData)
+                this.setState({
+                    //description: responseData.description
+                });
+            })
+            .catch((error) => {
+                console.log(error)
+                this.setState({
+                    serverError: true
+                });
+            })
+            .finally(() => {
+                this.setState({
+                    showProgress: false
+                });
+            });
     }
 
     goBack() {
@@ -36,101 +66,20 @@ class CampaignDetails extends Component {
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.form}>
-                        <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                Name:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.name}
-                                </Text>
-                            </View>
-                        </View>
+
 
                         <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                Status:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.status}
-                                </Text>
-                            </View>
+                            <Image
+                                source={{uri: this.state.url}}
+                                style={{
+                                    height: 500,
+                                    width: 300,
+                                    borderRadius: 5,
+                                    margin: 10
+                                }}
+                            />
                         </View>
 
-                        <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                Updated:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.updated}
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                WinRate:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.winRate}
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                Spend:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.spend}
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                Impressions:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.impressions}
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                Creatives:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.creatives}
-                                </Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.itemBlock}>
-                            <Text style={styles.itemTextBold}>
-                                ID:
-                            </Text>
-                            <View style={styles.itemWrap}>
-                                <Text style={styles.itemText}>
-                                    {this.state.id}
-                                </Text>
-                            </View>
-                        </View>
-
-                        <TouchableHighlight
-                            onPress={() => this.goBack()}
-                            style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                Back
-                            </Text>
-                        </TouchableHighlight>
 
                     </View>
                 </ScrollView>
@@ -153,7 +102,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     itemBlock: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     itemWrap: {
         flex: 1,
@@ -191,4 +141,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CampaignDetails;
+export default ViewooDetails;

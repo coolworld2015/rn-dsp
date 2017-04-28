@@ -14,9 +14,9 @@ import {
     TextInput
 } from 'react-native';
 
-import CampaignDetails from './campaignDetails';
+import ViewooDetails from './viewooDetails';
 
-class Campaigns extends Component {
+class Viewoo extends Component {
     constructor(props) {
         super(props);
 
@@ -82,9 +82,10 @@ class Campaigns extends Component {
     }
 
     showDetails(rowData) {
+        console.log('xxx ' + rowData)
         this.props.navigator.push({
-            title: rowData.name,
-            component: CampaignDetails,
+            title: rowData.title,
+            component: ViewooDetails,
             passProps: {
                 data: rowData
             }
@@ -97,7 +98,7 @@ class Campaigns extends Component {
             source={{uri: url}}
             style={{
                 height: 150,
-                width: 100,
+                width: 120,
                 borderRadius: 5,
                 margin: 10
             }}
@@ -108,15 +109,13 @@ class Campaigns extends Component {
                 onPress={() => this.showDetails(rowData)}
                 underlayColor='#ddd'
             >
-
                 <View style={styles.row}>
-
                     {image}
                     <View style={styles.itemWrap}>
-                    <Text style={{backgroundColor: '#fff', fontWeight: 'bold'}}>
-                        {rowData.title}
-                    </Text>
-                </View>
+                        <Text style={{backgroundColor: '#fff', fontWeight: 'bold'}}>
+                            {rowData.title}
+                        </Text>
+                    </View>
                 </View>
             </TouchableHighlight>
         );
@@ -166,7 +165,7 @@ class Campaigns extends Component {
         }
 
         let arr = [].concat(this.state.responseData);
-        let items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) !== -1);
+        let items = arr.filter((el) => el.title.toLowerCase().indexOf(text.toLowerCase()) !== -1);
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(items),
             resultsCount: items.length,
@@ -221,6 +220,7 @@ class Campaigns extends Component {
                 <ScrollView
                     onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        enableEmptySections={true}
                         style={styles.scroll}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
@@ -230,9 +230,11 @@ class Campaigns extends Component {
                 <View>
                     <TouchableWithoutFeedback
                         onPress={() => this.clearSearchQuery()}>
-                        <Text style={styles.countFooter}>
-                            Records: {this.state.resultsCount}
-                        </Text>
+                        <View>
+                            <Text style={styles.countFooter}>
+                                Records: {this.state.resultsCount}
+                            </Text>
+                        </View>
                     </TouchableWithoutFeedback>
                 </View>
             </View>
@@ -273,7 +275,7 @@ const styles = StyleSheet.create({
     row: {
         flex: 1,
         flexDirection: 'row',
-        padding: 20,
+        padding: 10,
         alignItems: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,
@@ -308,4 +310,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Campaigns;
+export default Viewoo;

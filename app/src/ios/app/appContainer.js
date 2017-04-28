@@ -9,13 +9,14 @@ import {
 import Campaigns from '../campaigns/campaigns';
 import Sspsem from '../sspsem/sspsem';
 import AllRNComponents from '../components/components';
+import Viewoo from '../viewoo/viewoo';
 
 class AppContainer extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedTab: 'Campaigns'
+            selectedTab: 'Viewoo'
         };
     }
 
@@ -73,10 +74,26 @@ class AppContainer extends Component {
                         style={{
                             flex: 1
                         }}
-                        ref="sspsem"
                         initialRoute={{
                             component: AllRNComponents,
                             title: 'Demo',
+                        }}
+                    />
+                </TabBarIOS.Item>
+
+                <TabBarIOS.Item
+                    title="Viewoo"
+                    icon={require('../../../img/images.png')}
+                    selected={this.state.selectedTab === 'Viewoo'}
+                    onPress={() => this.setState({selectedTab: 'Viewoo'})}>
+
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Viewoo,
+                            title: 'Viewoo',
                         }}
                     />
                 </TabBarIOS.Item>
