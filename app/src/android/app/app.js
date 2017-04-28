@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {Component} from 'react';
 import {
 	BackAndroid
@@ -22,8 +20,15 @@ class App extends Component {
 		});
 		
         this.state = {
-            isLoggedIn: false
-        };	
+            isLoggedIn: true
+        };
+		
+		appConfig = {
+			url: 'http://jwt-budget.herokuapp.com/',
+			viewoo: {
+				refresh: false
+			}
+		}
     }
 
     render() {

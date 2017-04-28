@@ -13,6 +13,9 @@ import CampaignDetails from '../campaigns/campaignDetails';
 import Sspsem from '../sspsem/sspsem';
 import SspsemDetails from '../sspsem/sspsemDetails';
 
+import Viewoo from '../viewoo/viewoo';
+import ViewooDetails from '../viewoo/viewooDetails';
+
 class AppContainer extends Component {
     constructor(props) {
         super(props);
@@ -27,6 +30,7 @@ class AppContainer extends Component {
             <ScrollableTabView
                 renderTabBar={() => <DefaultTabBar backgroundColor='white'/>}
             >
+                <ViewooTab tabLabel="Viewoo"/>
                 <CampaignsTab tabLabel="Campaigns"/>
                 <SspsemTab tabLabel="SSP EM"/>
                 <Logout onLogOut={this.onLogOut.bind(this)} tabLabel="Logout"/>
@@ -96,6 +100,39 @@ class SspsemTab extends Component {
                 break;
             case 1:
                 return <SspsemDetails data={route.data} routes={this.routes} navigator={navigator}/>;
+                break;
+        }
+    }
+
+    render() {
+        return (
+            <Navigator
+                initialRoute={this.routes[0]}
+                initialRouteStack={this.routes}
+                renderScene={this.renderScene.bind(this)}
+                configureScene={(route, routeStack) =>
+                    Navigator.SceneConfigs.PushFromRight}
+            />
+        )
+    }
+}
+
+class ViewooTab extends Component {
+    constructor(props) {
+        super(props);
+        this.routes = [
+            {title: 'Viewoo', index: 0},
+            {title: 'Viewoo Details', index: 1}
+        ];
+    }
+
+    renderScene(route, navigator) {
+        switch (route.index) {
+            case 0:
+                return <Viewoo routes={this.routes} navigator={navigator}/>;
+                break;
+            case 1:
+                return <ViewooDetails data={route.data} routes={this.routes} navigator={navigator}/>;
                 break;
         }
     }
