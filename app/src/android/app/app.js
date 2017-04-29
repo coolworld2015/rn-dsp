@@ -22,13 +22,6 @@ class App extends Component {
         this.state = {
             isLoggedIn: true
         };
-		
-		appConfig = {
-			url: 'http://jwt-budget.herokuapp.com/',
-			viewoo: {
-				refresh: false
-			}
-		}
     }
 
     render() {

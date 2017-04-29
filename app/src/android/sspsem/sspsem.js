@@ -209,7 +209,7 @@ class Sspsem extends Component {
                             onPress={() => this.clearSearchQuery()}
                         >
                             <Text style={styles.textLarge}>
-                                SSP Endpoints Manager
+                                Endpoints Manager
                             </Text>
                         </TouchableWithoutFeedback>
                     </View>

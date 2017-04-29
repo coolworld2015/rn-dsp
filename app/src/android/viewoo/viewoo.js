@@ -26,9 +26,9 @@ class Viewoo extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            showProgress: false,
+            showProgress: true,
             resultsCount: 0,
-            recordsCount: 25,
+            recordsCount: 15,
             positionY: 0
         };
     }
@@ -37,22 +37,12 @@ class Viewoo extends Component {
         this.getItems();
     }
 	
-    componentWillUpdate() {
-        if (appConfig.viewoo.refresh) {
-            appConfig.viewoo.refresh = false;
-
-            this.setState({
-                showProgress: false,
-            });
-        }
-    }
-	
     getItems() {
 		this.setState({
 			showProgress: true
 		});
 				
-        let url = 'http://viewoo.tv/api/movies/list/12/0?q=';
+        let url = 'http://viewoo.tv/api/movies/list/350/0?q=';
         fetch(url, {
             method: 'get',
             headers: {
@@ -64,7 +54,7 @@ class Viewoo extends Component {
             .then((responseData) => {
                 console.log(responseData)
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.results),
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.results.slice(0, 15)),
                     resultsCount: responseData.results.length,
                     responseData: responseData.results,
                     filteredItems: responseData.results
@@ -82,20 +72,9 @@ class Viewoo extends Component {
             });
     }
 
-    sort(a, b) {
-        let nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
-        if (nameA < nameB) {
-            return -1
-        }
-        if (nameA > nameB) {
-            return 1
-        }
-        return 0;
-    }
-
     showDetails(rowData) {
 		this.setState({
-			showProgress: true
+			//showProgress: true
 		});
 
         this.props.navigator.push({
@@ -105,18 +84,20 @@ class Viewoo extends Component {
     }
 
     renderRow(rowData) {
-        let url = 'http://viewoo.tv' + rowData.poster.middle_path;
-        let image = <Image
-            source={{uri: url}}
-            style={{
-                height: 100,
-                width: 70,
-                borderRadius: 5,
-                margin: 10,
-				marginTop: -5,
-				marginBottom: -5,
-            }}
-        />;
+		let url, image;
+
+			url = 'http://viewoo.tv' + rowData.poster.middle_path;
+			image = <Image
+				source={{uri: url}}
+				style={{
+					height: 100,
+					width: 70,
+					borderRadius: 5,
+					margin: 10,
+					marginTop: -5,
+					marginBottom: -5,
+				}}
+			/>;
 
         return (
             <TouchableHighlight
@@ -139,20 +120,6 @@ class Viewoo extends Component {
 		//console.log(event.nativeEvent.contentOffset.y)
         if (this.state.showProgress === true) {
             return;
-        }
-
-        if (event.nativeEvent.contentOffset.y <= -150) {
-            this.setState({
-                showProgress: true,
-                resultsCount: 0,
-                recordsCount: 25,
-                positionY: 0,
-                searchQuery: ''
-            });
-
-            setTimeout(() => {
-                this.getItems()
-            }, 300);
         }
 
         if (this.state.filteredItems === undefined) {

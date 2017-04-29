@@ -9,15 +9,24 @@ import {
     TouchableHighlight,
 	TouchableWithoutFeedback,
     ScrollView,
-	ActivityIndicator
+	ActivityIndicator,
+	BackAndroid
 } from 'react-native';
 
 class ViewooDetails extends Component {
     constructor(props) {
         super(props);
 		
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            if (this.props.navigator) {
+                this.props.navigator.pop();
+            }
+            return true;
+        });	
+		
 		this.state = {
-            name: ''
+            name: '',
+			showProgress: true
         };
 		
 		if (props.data) {
@@ -52,9 +61,8 @@ class ViewooDetails extends Component {
                 });
             })
             .finally(() => {
-				appConfig.viewoo.refresh = true;
                 this.setState({
-                    //showProgress: false
+                    showProgress: false
                 });
             });
     }
