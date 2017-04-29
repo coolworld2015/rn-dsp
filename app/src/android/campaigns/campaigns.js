@@ -99,12 +99,6 @@ class Campaigns extends Component {
         });
     }
 
-    goSearch() {
-        this.props.navigator.push({
-            index: 2
-        });
-    }
-
     renderRow(rowData) {
 		let d = new Date(rowData.updated);
         return (
@@ -204,7 +198,7 @@ class Campaigns extends Component {
             resultsCount: this.state.responseData.length,
             filteredItems: this.state.responseData,
             positionY: 0,
-            recordsCount: 25,
+            recordsCount: 15,
             searchQuery: ''
         });
     }
@@ -233,12 +227,7 @@ class Campaigns extends Component {
 				style={{
 					height: 20,
 					width: 20,
-					//borderRadius: 5,
-					//margin: 10,
-					marginTop: 10,
-					//marginRight: -15,
-					//marginBottom: -5,
-					//paddingRight: -25,
+					marginTop: 10
 				}}
 			/>;
 		}
@@ -288,13 +277,11 @@ class Campaigns extends Component {
 							onChangeText={this.onChangeText.bind(this)}
 							style={{
 								height: 45,
-								marginTop: 0,
 								padding: 5,
 								backgroundColor: 'white',
 								borderWidth: 3,
 								borderColor: 'white',
 								borderRadius: 0,
-								//borderRightColor: 'white',
 								width: this.state.width * .90,
 							}}
 							value={this.state.searchQuery}
@@ -303,13 +290,9 @@ class Campaigns extends Component {
 					</View>
 					<View style={{
 						height: 45,
-						marginTop: 0,
-						padding: 0,
 						backgroundColor: 'white',
 						borderWidth: 3,
 						borderColor: 'white',
-						//borderRadius: 0,
-						//borderLeftColor: 'white',
 						marginLeft: -10,
 						paddingLeft: 10,
 						width: this.state.width * .10,
@@ -355,9 +338,7 @@ const styles = StyleSheet.create({
 	iconForm: {
 		flexDirection: 'row',
 		borderColor: 'lightgray',
-		borderWidth: 3,
-		
-        //justifyContent: 'space-between',
+		borderWidth: 3
 	},
     header: {
         flexDirection: 'row',

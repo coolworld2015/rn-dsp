@@ -32,10 +32,10 @@ class AppContainer extends Component {
             <ScrollableTabView
                 renderTabBar={() => <DefaultTabBar backgroundColor='white'/>}
             >
+				<ViewooTab tabLabel="Viewoo"/>
                 <CampaignsTab tabLabel="Campaigns"/>
                 <SspsemTab tabLabel="SSP EM"/>
                 {/*
-				<ViewooTab tabLabel="Viewoo"/>
                 <ComponentsTab tabLabel="Demo"/>
 				*/}
                 <Logout onLogOut={this.onLogOut.bind(this)} tabLabel="Logout"/>

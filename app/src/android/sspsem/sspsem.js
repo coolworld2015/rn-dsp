@@ -11,7 +11,9 @@ import {
     ScrollView,
     ActivityIndicator,
     TextInput,
-	Alert
+	Alert,
+	Image,
+	Dimensions	
 } from 'react-native';
 
 class Sspsem extends Component {
@@ -28,11 +30,15 @@ class Sspsem extends Component {
             serverError: false,
             resultsCount: 0,
             recordsCount: 15,
-            positionY: 0
+            positionY: 0,
+			searchQuery: ''
         };
     }
 
     componentDidMount() {
+		this.setState({
+            width: Dimensions.get('window').width
+        });
         this.getItems();
     }
 
@@ -90,12 +96,6 @@ class Sspsem extends Component {
         this.props.navigator.push({
             index: 1,
             data: rowData
-        });
-    }
-
-    goSearch() {
-        this.props.navigator.push({
-            index: 2
         });
     }
 
@@ -199,13 +199,13 @@ class Sspsem extends Component {
             resultsCount: this.state.responseData.length,
             filteredItems: this.state.responseData,
             positionY: 0,
-            recordsCount: 25,
+            recordsCount: 15,
             searchQuery: ''
         });
     }
 
     render() {
-        let errorCtrl, loader;
+        let errorCtrl, loader, image;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -221,6 +221,17 @@ class Sspsem extends Component {
                 />
             </View>;
         }
+
+		if (this.state.searchQuery.length > 0) {
+			image = <Image
+				source={require('../../../img/cancel.png')}
+				style={{
+					height: 20,
+					width: 20,
+					marginTop: 10
+				}}
+			/>;
+		}
 
         return (
             <View style={styles.container}>
@@ -260,14 +271,41 @@ class Sspsem extends Component {
                     </View>
                 </View>
 
-                <View>
-                    <TextInput
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                        onChangeText={this.onChangeText.bind(this)}
-                        style={styles.textInput}
-                        value={this.state.searchQuery}
-                        placeholder="Search here">
-                    </TextInput>
+                <View style={styles.iconForm}>
+					<View>
+						<TextInput
+							underlineColorAndroid='rgba(0,0,0,0)'
+							onChangeText={this.onChangeText.bind(this)}
+							style={{
+								height: 45,
+								padding: 5,
+								backgroundColor: 'white',
+								borderWidth: 3,
+								borderColor: 'white',
+								borderRadius: 0,
+								width: this.state.width * .90,
+							}}
+							value={this.state.searchQuery}
+							placeholder="Search here">
+						</TextInput>
+					</View>
+					<View style={{
+						height: 45,
+						backgroundColor: 'white',
+						borderWidth: 3,
+						borderColor: 'white',
+						marginLeft: -10,
+						paddingLeft: 10,
+						width: this.state.width * .10,
+					}}>			
+						<TouchableWithoutFeedback
+							onPress={() => this.clearSearchQuery()}
+						>			
+							<View>					
+								{image}
+							</View>
+						</TouchableWithoutFeedback>
+					</View>
                 </View>
 
                 {errorCtrl}
@@ -298,6 +336,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white'
     },
+	iconForm: {
+		flexDirection: 'row',
+		borderColor: 'lightgray',
+		borderWidth: 3
+	},
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
