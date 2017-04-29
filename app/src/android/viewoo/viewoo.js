@@ -270,7 +270,7 @@ class Viewoo extends Component {
 						borderWidth: 3,
 						borderColor: 'white',
 						marginLeft: -10,
-						paddingLeft: 10,
+						paddingLeft: 5,
 						width: this.state.width * .10,
 					}}>			
 						<TouchableWithoutFeedback

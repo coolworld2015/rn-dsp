@@ -247,7 +247,7 @@ class Sspsem extends Component {
 							</View>	
                         </TouchableWithoutFeedback>
                     </View>
-                    <View>
+                    <View style={styles.itemWrap}>
                         <TouchableWithoutFeedback
                             onPress={() => this.clearSearchQuery()}
                         >
@@ -295,7 +295,7 @@ class Sspsem extends Component {
 						borderWidth: 3,
 						borderColor: 'white',
 						marginLeft: -10,
-						paddingLeft: 10,
+						paddingLeft: 5,
 						width: this.state.width * .10,
 					}}>			
 						<TouchableWithoutFeedback
@@ -341,6 +341,11 @@ const styles = StyleSheet.create({
 		borderColor: 'lightgray',
 		borderWidth: 3
 	},
+	itemWrap: {
+        flex: 1,
+        flexDirection: 'column',
+        flexWrap: 'wrap'
+    },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
