@@ -242,7 +242,7 @@ class Sspsem extends Component {
                         >
 							<View>
 								<Text style={styles.textLarge}>
-									Endpoints Manager
+									SSP Endpoints Manager
 								</Text>
 							</View>	
                         </TouchableWithoutFeedback>

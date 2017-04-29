@@ -11,7 +11,9 @@ import {
     ScrollView,
     ActivityIndicator,
     TextInput,
-	Alert
+	Alert,
+	Image,
+	Dimensions
 } from 'react-native';
 
 class Campaigns extends Component {
@@ -28,11 +30,15 @@ class Campaigns extends Component {
             serverError: false,
             resultsCount: 0,
             recordsCount: 15,
-            positionY: 0
+            positionY: 0,
+			searchQuery: ''
         };
     }
 
     componentDidMount() {
+		this.setState({
+            width: Dimensions.get('window').width
+        });
         this.getItems();
     }
 
@@ -204,7 +210,7 @@ class Campaigns extends Component {
     }
 
     render() {
-        let errorCtrl, loader;
+        let errorCtrl, loader, image;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -221,6 +227,22 @@ class Campaigns extends Component {
             </View>;
         }
 
+		if (this.state.searchQuery.length > 0) {
+			image = <Image
+				source={require('../../../img/cancel.png')}
+				style={{
+					height: 20,
+					width: 20,
+					//borderRadius: 5,
+					//margin: 10,
+					marginTop: 10,
+					//marginRight: -15,
+					//marginBottom: -5,
+					//paddingRight: -25,
+				}}
+			/>;
+		}
+		
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
@@ -259,14 +281,47 @@ class Campaigns extends Component {
                     </View>
                 </View>
 
-                <View>
-                    <TextInput
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                        onChangeText={this.onChangeText.bind(this)}
-                        style={styles.textInput}
-                        value={this.state.searchQuery}
-                        placeholder="Search here">
-                    </TextInput>
+                <View style={styles.iconForm}>
+					<View>
+						<TextInput
+							underlineColorAndroid='rgba(0,0,0,0)'
+							onChangeText={this.onChangeText.bind(this)}
+							style={{
+								height: 45,
+								marginTop: 0,
+								padding: 5,
+								backgroundColor: 'white',
+								borderWidth: 3,
+								borderColor: 'white',
+								borderRadius: 0,
+								//borderRightColor: 'white',
+								width: this.state.width * .90,
+							}}
+							value={this.state.searchQuery}
+							placeholder="Search here">
+						</TextInput>
+					</View>
+					<View style={{
+						height: 45,
+						marginTop: 0,
+						padding: 0,
+						backgroundColor: 'white',
+						borderWidth: 3,
+						borderColor: 'white',
+						//borderRadius: 0,
+						//borderLeftColor: 'white',
+						marginLeft: -10,
+						paddingLeft: 10,
+						width: this.state.width * .10,
+					}}>			
+						<TouchableWithoutFeedback
+							onPress={() => this.clearSearchQuery()}
+						>			
+							<View>					
+								{image}
+							</View>
+						</TouchableWithoutFeedback>
+					</View>
                 </View>
 
                 {errorCtrl}
@@ -297,6 +352,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white'
     },
+	iconForm: {
+		flexDirection: 'row',
+		borderColor: 'lightgray',
+		borderWidth: 3,
+		
+        //justifyContent: 'space-between',
+	},
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
