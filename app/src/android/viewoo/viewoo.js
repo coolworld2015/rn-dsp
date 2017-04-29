@@ -39,8 +39,10 @@ class Viewoo extends Component {
 	
     getItems() {
 		this.setState({
-			showProgress: true
-		});
+            resultsCount: 0,
+            recordsCount: 25,
+            positionY: 0
+        });
 				
         let url = 'http://viewoo.tv/api/movies/list/350/0?q=';
         fetch(url, {

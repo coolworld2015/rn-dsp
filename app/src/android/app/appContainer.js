@@ -16,6 +16,8 @@ import SspsemDetails from '../sspsem/sspsemDetails';
 import Viewoo from '../viewoo/viewoo';
 import ViewooDetails from '../viewoo/viewooDetails';
 
+import AllRNComponents from '../components/components';
+
 class AppContainer extends Component {
     constructor(props) {
         super(props);
@@ -30,9 +32,12 @@ class AppContainer extends Component {
             <ScrollableTabView
                 renderTabBar={() => <DefaultTabBar backgroundColor='white'/>}
             >
-                <ViewooTab tabLabel="Viewoo"/>
                 <CampaignsTab tabLabel="Campaigns"/>
                 <SspsemTab tabLabel="SSP EM"/>
+                {/*
+				<ViewooTab tabLabel="Viewoo"/>
+                <ComponentsTab tabLabel="Demo"/>
+				*/}
                 <Logout onLogOut={this.onLogOut.bind(this)} tabLabel="Logout"/>
             </ScrollableTabView>
         );
@@ -133,6 +138,39 @@ class ViewooTab extends Component {
                 break;
             case 1:
                 return <ViewooDetails data={route.data} routes={this.routes} navigator={navigator}/>;
+                break;
+        }
+    }
+
+    render() {
+        return (
+            <Navigator
+                initialRoute={this.routes[0]}
+                initialRouteStack={this.routes}
+                renderScene={this.renderScene.bind(this)}
+                configureScene={(route, routeStack) =>
+                    Navigator.SceneConfigs.PushFromRight}
+            />
+        )
+    }
+}
+
+class ComponentsTab extends Component {
+    constructor(props) {
+        super(props);
+        this.routes = [
+            {title: 'Components', index: 0},
+            {title: 'Components Details', index: 1}
+        ];
+    }
+
+    renderScene(route, navigator) {
+        switch (route.index) {
+            case 0:
+                return <AllRNComponents routes={this.routes} navigator={navigator}/>;
+                break;
+            case 1:
+                return <AllRNComponents data={route.data} routes={this.routes} navigator={navigator}/>;
                 break;
         }
     }

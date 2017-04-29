@@ -10,7 +10,8 @@ import {
     ListView,
     ScrollView,
     ActivityIndicator,
-    TextInput
+    TextInput,
+	Alert
 } from 'react-native';
 
 class Campaigns extends Component {
@@ -26,7 +27,7 @@ class Campaigns extends Component {
             showProgress: true,
             serverError: false,
             resultsCount: 0,
-            recordsCount: 25,
+            recordsCount: 15,
             positionY: 0
         };
     }
@@ -37,8 +38,11 @@ class Campaigns extends Component {
 
     getItems() {
 		this.setState({
-			serverError: false
-		});		
+			serverError: false,
+            resultsCount: 0,
+            recordsCount: 15,
+            positionY: 0
+        });
 		
         let url = 'http://dsp1.epomstaging.com/demand/management/campaigns/list';
         fetch(url, {
@@ -52,7 +56,7 @@ class Campaigns extends Component {
             .then((responseData) => {
 
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort).slice(0, 25)),
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort).slice(0, 15)),
                     resultsCount: responseData.length,
                     responseData: responseData,
                     filteredItems: responseData
@@ -96,16 +100,35 @@ class Campaigns extends Component {
     }
 
     renderRow(rowData) {
+		let d = new Date(rowData.updated);
         return (
             <TouchableHighlight
                 onPress={() => this.showDetails(rowData)}
                 underlayColor='#ddd'
             >
-                <View style={styles.row}>
-                    <Text style={styles.rowText}>
-                        {rowData.name} - {rowData.status.name}
-                    </Text>
-                </View>
+				<View style={styles.row}>
+					<View style={styles.textBlock}>
+						<Text style={styles.textItemBold}>
+							{rowData.name}
+						</Text>					
+						<Text style={styles.textItemBold}>
+							{rowData.status.name}
+						</Text>
+
+						<Text style={styles.textItem}>
+							Updated: {d.toLocaleString()}
+						</Text> 
+						<Text style={styles.textItem}>
+							Impressions: {rowData.impressions.toString()}
+						</Text>
+						<Text style={styles.textItem}>
+							Win rate: {rowData.winRate.toString()}
+						</Text>
+						<Text style={styles.textItem}>
+							Spend: {rowData.spend.toString()}
+						</Text>
+					</View>
+				</View>
             </TouchableHighlight>
         );
     }
@@ -156,9 +179,17 @@ class Campaigns extends Component {
 
         this.getItems();
     }
-
-    goBack() {
-        this.props.navigator.pop();
+	
+    deleteItemDialog() {
+        Alert.alert(
+            'Information.',
+            'This action is under construction.',
+            [
+                {
+                    text: 'OK', onPress: () => {}
+                },
+            ]
+        );
     }
 
     clearSearchQuery() {
@@ -196,31 +227,35 @@ class Campaigns extends Component {
                     <View>
                         <TouchableWithoutFeedback
                             onPress={() => this.refreshDataAndroid()}
-                            underlayColor='#ddd'
                         >
-                            <Text style={styles.textSmall}>
-                                Reload
-                            </Text>
+							<View>
+								<Text style={styles.textSmall}>
+									Reload
+								</Text>
+							</View>	
                         </TouchableWithoutFeedback>
                     </View>
                     <View>
                         <TouchableWithoutFeedback
-                            underlayColor='#ddd'
                             onPress={() => this.clearSearchQuery()}
                         >
-                            <Text style={styles.textLarge}>
-                                Campaigns
-                            </Text>
+							<View>
+								<Text style={styles.textLarge}>
+									Campaigns
+								</Text>
+							</View>	
                         </TouchableWithoutFeedback>
                     </View>
                     <View>
                         <TouchableWithoutFeedback
-                            onPress={() => this.goSearch()}
-                            underlayColor='#ddd'
-                        >
-                            <Text style={styles.textSmall}>
-                            </Text>
-                        </TouchableWithoutFeedback>
+                            onPress={() => this.deleteItemDialog()}
+						>
+							<View>
+								<Text style={styles.textSmall}>
+									New
+								</Text>
+							</View>
+						</TouchableWithoutFeedback>
                     </View>
                 </View>
 
@@ -280,7 +315,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        marginRight: 60,
+        //marginRight: 60,
         fontWeight: 'bold',
         color: 'white'
     },
@@ -293,10 +328,18 @@ const styles = StyleSheet.create({
         borderColor: 'lightgray',
         borderRadius: 0
     },
+	textItemBold: {
+		fontWeight: 'bold', 
+		color: 'black'
+    },	
+	textItem: {
+		color: 'black'
+    },
     row: {
         flex: 1,
         flexDirection: 'row',
-        padding: 20,
+        padding: 5,
+        paddingLeft: 20,
         alignItems: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,

@@ -8,7 +8,8 @@ import {
     TouchableHighlight,
 	TouchableWithoutFeedback,
     ScrollView,
-	BackAndroid
+	BackAndroid,
+	Alert
 } from 'react-native';
 
 class SspsemDetails extends Component {
@@ -43,6 +44,19 @@ class SspsemDetails extends Component {
 			};
 		}
 	}
+	
+    deleteItemDialog() {
+        Alert.alert(
+            'Information.',
+            'This action is under construction.',
+            [
+                {
+                    text: 'OK', onPress: () => {}
+                },
+            ]
+        );
+    }
+	
     goBack() {
         this.props.navigator.pop();
     }
@@ -54,29 +68,34 @@ class SspsemDetails extends Component {
                     <View>
                         <TouchableWithoutFeedback
                             onPress={() => this.goBack()}
-                            underlayColor='#ddd'
                         >
-                            <Text style={styles.textSmall}>
-                                Back
-                            </Text>
+							<View>
+								<Text style={styles.textSmall}>
+									Back
+								</Text>
+							</View>	
+                        </TouchableWithoutFeedback>
+                    </View>
+                    <View style={styles.itemWrap}>
+                        <TouchableWithoutFeedback
+						>
+							<View>
+								<Text style={styles.textLarge}>
+									{this.state.name}
+								</Text>
+							</View>
                         </TouchableWithoutFeedback>
                     </View>
                     <View>
                         <TouchableWithoutFeedback
-                            underlayColor='#ddd'
-                        >
-                            <Text style={styles.textLarge}>
-                                {this.state.name}
-                            </Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-                    <View>
-                        <TouchableWithoutFeedback
-                            underlayColor='#ddd'
-                        >
-                            <Text style={styles.textSmall}>
-                            </Text>
-                        </TouchableWithoutFeedback>
+                            onPress={() => this.deleteItemDialog()}
+						>
+							<View>
+								<Text style={styles.textSmall}>
+									Delete
+								</Text>
+							</View>
+						</TouchableWithoutFeedback>
                     </View>
                 </View>
 				
@@ -254,7 +273,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        marginRight: 40,
+        marginRight: 20,
         fontWeight: 'bold',
         color: 'white'
     },
@@ -268,17 +287,22 @@ const styles = StyleSheet.create({
     itemBlock: {
         flexDirection: 'row'
     },
+	itemWrap: {
+        flex: 1,
+        flexDirection: 'column',
+        flexWrap: 'wrap'
+    },	
     itemTextBold: {
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'left',
-        margin: 10,
+        margin: 4,
         fontWeight: 'bold',
         color: 'black'
     },
     itemText: {
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'left',
-        margin: 10,
+        margin: 4,
         marginLeft: 2,
         color: 'black'
     },
