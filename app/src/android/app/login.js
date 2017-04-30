@@ -63,28 +63,23 @@ class Login extends Component {
             .then((responseData) => {
                 if (responseData.token) {
                     appConfig.access_token = responseData.token;
-
                     this.setState({
                         badCredentials: false
                     });
-
                     this.props.onLogin();
                 } else {
                     this.setState({
-                        badCredentials: true
+                        badCredentials: true,
+                        showProgress: false
                     });
                 }
             })
             .catch((error) => {
                 this.setState({
-                    badCredentials: true
-                });
-            })
-            .finally(() => {
-                this.setState({
+                    badCredentials: true,
                     showProgress: false
                 });
-            });
+            })
     }
 
     render() {
@@ -155,8 +150,8 @@ class Login extends Component {
                     </TextInput>
 
                     <TouchableHighlight
-                        //onPress={() => this.onLogin()}
-                        onPress={() => this.onLoginPressed()}
+                        onPress={() => this.onLogin()}
+                        //onPress={() => this.onLoginPressed()}
                         style={styles.button}>
                         <Text style={styles.buttonText}>
                             Log in

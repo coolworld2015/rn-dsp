@@ -233,33 +233,33 @@ class Campaigns extends Component {
 		}
 		
         return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <View>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.refreshDataAndroid()}
-                        >
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<View>
+						<TouchableWithoutFeedback
+							onPress={() => this.refreshDataAndroid()}
+						>
 							<View>
 								<Text style={styles.textSmall}>
 									Reload
 								</Text>
 							</View>	
-                        </TouchableWithoutFeedback>
-                    </View>
-                    <View>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.clearSearchQuery()}
-                        >
+						</TouchableWithoutFeedback>
+					</View>
+					<View>
+						<TouchableWithoutFeedback
+							onPress={() => this.clearSearchQuery()}
+						>
 							<View>
 								<Text style={styles.textLarge}>
 									Campaigns
 								</Text>
 							</View>	
-                        </TouchableWithoutFeedback>
-                    </View>
-                    <View>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.deleteItemDialog()}
+						</TouchableWithoutFeedback>
+					</View>
+					<View>
+						<TouchableWithoutFeedback
+							onPress={() => this.deleteItemDialog()}
 						>
 							<View>
 								<Text style={styles.textSmall}>
@@ -267,10 +267,10 @@ class Campaigns extends Component {
 								</Text>
 							</View>
 						</TouchableWithoutFeedback>
-                    </View>
-                </View>
+					</View>
+				</View>
 
-                <View style={styles.iconForm}>
+				<View style={styles.iconForm}>
 					<View>
 						<TextInput
 							underlineColorAndroid='rgba(0,0,0,0)'
@@ -305,26 +305,26 @@ class Campaigns extends Component {
 							</View>
 						</TouchableWithoutFeedback>
 					</View>
-                </View>
+				</View>
 
-                {errorCtrl}
+				{errorCtrl}
 
-                {loader}
+				{loader}
 
-                <ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
-                    <ListView
-                        enableEmptySections={true}
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                    />
-                </ScrollView>
+				<ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
+					<ListView
+						enableEmptySections={true}
+						dataSource={this.state.dataSource}
+						renderRow={this.renderRow.bind(this)}
+					/>
+				</ScrollView>
 
-                <View>
-                    <Text style={styles.countFooter}>
-                        Records: {this.state.resultsCount}
-                    </Text>
-                </View>
-            </View>
+				<View>
+					<Text style={styles.countFooter}>
+						Records: {this.state.resultsCount}
+					</Text>
+				</View>
+			</View>
         )
     }
 }

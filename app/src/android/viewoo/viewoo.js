@@ -92,7 +92,6 @@ class Viewoo extends Component {
 
     renderRow(rowData) {
 		let url, image;
-
 			url = 'http://viewoo.tv' + rowData.poster.middle_path;
 			image = <Image
 				source={{uri: url}}
@@ -124,7 +123,6 @@ class Viewoo extends Component {
     }
 
     refreshData(event) {
-		//console.log(event.nativeEvent.contentOffset.y)
         if (this.state.showProgress === true) {
             return;
         }
@@ -139,7 +137,6 @@ class Viewoo extends Component {
         items = this.state.filteredItems.slice(0, recordsCount);
 
         if (event.nativeEvent.contentOffset.y >= positionY - 10) {
-            console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
                 recordsCount: recordsCount + 10,
@@ -213,40 +210,43 @@ class Viewoo extends Component {
 		}
 		
         return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <View>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.refreshDataAndroid()}
-                            underlayColor='#ddd'
-                        >
-                            <Text style={styles.textSmall}>
-                                Reload
-                            </Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-                    <View>
-                        <TouchableWithoutFeedback
-                            underlayColor='#ddd'
-                            onPress={() => this.clearSearchQuery()}
-                        >
-                            <Text style={styles.textLarge}>
-                                Viewoo
-                            </Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-                    <View>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.goSearch()}
-                            underlayColor='#ddd'
-                        >
-                            <Text style={styles.textSmall}>
-                            </Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-                </View>
+			<View style={styles.container}>
+				<View style={styles.header}>
+					<View>
+						<TouchableWithoutFeedback
+							onPress={() => this.refreshDataAndroid()}
+						>
+							<View>
+								<Text style={styles.textSmall}>
+									Reload
+								</Text>
+							</View>	
+						</TouchableWithoutFeedback>
+					</View>
+					<View>
+						<TouchableWithoutFeedback
+							onPress={() => this.clearSearchQuery()}
+						>
+							<View>
+								<Text style={styles.textLarge}>
+									Viewoo
+								</Text>
+							</View>
+						</TouchableWithoutFeedback>
+					</View>
+					<View>
+						<TouchableWithoutFeedback
+							onPress={() => this.goSearch()}
+						>
+							<View>
+								<Text style={styles.textSmall}>
+								</Text>
+							</View>	
+						</TouchableWithoutFeedback>
+					</View>
+				</View>
 
-                <View style={styles.iconForm}>
+				<View style={styles.iconForm}>
 					<View>
 						<TextInput
 							underlineColorAndroid='rgba(0,0,0,0)'
@@ -281,26 +281,26 @@ class Viewoo extends Component {
 							</View>
 						</TouchableWithoutFeedback>
 					</View>
-                </View>
+				</View>
 
-                {errorCtrl}
+				{errorCtrl}
 
-                {loader}
+				{loader}
 
-                <ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
-                    <ListView
-                        enableEmptySections={true}
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                    />
-                </ScrollView>
+				<ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
+					<ListView
+						enableEmptySections={true}
+						dataSource={this.state.dataSource}
+						renderRow={this.renderRow.bind(this)}
+					/>
+				</ScrollView>
 
-                <View>
-                    <Text style={styles.countFooter}>
-                        Records: {this.state.resultsCount}
-                    </Text>
-                </View>
-            </View>
+				<View>
+					<Text style={styles.countFooter}>
+						Records: {this.state.resultsCount}
+					</Text>
+				</View>
+			</View>
         )
     }
 }

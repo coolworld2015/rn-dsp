@@ -22,6 +22,17 @@ class App extends Component {
         this.state = {
             isLoggedIn: true
         };
+		
+        window.appConfig = {
+            access_token: '',
+			url: 'http://jwt-base.herokuapp.com/',
+			users: {
+                refresh: false
+            },
+			phones: {
+                refresh: false
+            }	
+        };
     }
 
     render() {

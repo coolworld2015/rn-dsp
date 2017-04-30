@@ -95,22 +95,28 @@ class ViewooDetails extends Component {
                     <View>
                         <TouchableWithoutFeedback 
 							onPress={() => this.goBack()}>
-                            <Text style={styles.textSmall}>
-                                Back
-                            </Text>
+							<View>
+								<Text style={styles.textSmall}>
+									Back
+								</Text>
+							</View>
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={styles.itemWrap}>
                         <TouchableWithoutFeedback>
-                            <Text style={styles.textLarge}>
-                                {this.state.name}
-                            </Text>
+							<View>
+								<Text style={styles.textLarge}>
+									{this.state.name}
+								</Text>
+							</View>	
                         </TouchableWithoutFeedback>
                     </View>
                     <View>
                         <TouchableWithoutFeedback>
-                            <Text style={styles.textSmall}>
-                            </Text>
+							<View>
+								<Text style={styles.textSmall}>
+								</Text>
+							</View>	
                         </TouchableWithoutFeedback>
                     </View>
                 </View>
