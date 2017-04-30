@@ -196,13 +196,13 @@ const styles = StyleSheet.create({
         height: 150,
         paddingTop: 140,
         borderRadius: 20,
-		marginBottom: 10,
+		marginBottom: 10
     },
     headerContainer: {
         justifyContent: 'center',
         alignItems: 'center',
 		marginBottom: 10,
-		marginTop: -10,
+		marginTop: -10
     },
     heading: {
         fontSize: 30,
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#48BBEC',
         borderColor: '#48BBEC',
         alignSelf: 'stretch',
-        marginTop: 10,
+        marginTop: 20,
         margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
