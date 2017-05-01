@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        paddingLeft: 40,
+        paddingLeft: 20,
         fontWeight: 'bold',
         color: 'white'
     },
