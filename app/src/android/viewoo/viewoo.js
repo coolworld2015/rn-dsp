@@ -12,7 +12,8 @@ import {
     ScrollView,
     ActivityIndicator,
     TextInput,
-	Dimensions
+	Dimensions,
+	RefreshControl
 } from 'react-native';
 
 import ViewooDetails from './viewooDetails';
@@ -31,7 +32,8 @@ class Viewoo extends Component {
             resultsCount: 0,
             recordsCount: 15,
             positionY: 0,
-			searchQuery: ''
+			searchQuery: '',
+			refreshing: false
         };
     }
 
@@ -46,7 +48,8 @@ class Viewoo extends Component {
 		this.setState({
             resultsCount: 0,
             recordsCount: 15,
-            positionY: 0
+            positionY: 0,
+			searchQuery: ''
         });
 				
         let url = 'http://viewoo.tv/api/movies/list/350/0?q=';
@@ -64,7 +67,8 @@ class Viewoo extends Component {
                     dataSource: this.state.dataSource.cloneWithRows(responseData.results.slice(0, 15)),
                     resultsCount: responseData.results.length,
                     responseData: responseData.results,
-                    filteredItems: responseData.results
+                    filteredItems: responseData.results,
+					refreshing: false
                 });
             })
             .catch((error) => {
@@ -222,20 +226,15 @@ class Viewoo extends Component {
 			<View style={styles.container}>
 				<View style={styles.header}>
 					<View>
-						<TouchableWithoutFeedback
-							onPress={() => this.refreshDataAndroid()}
-						>
+						<TouchableWithoutFeedback>
 							<View>
 								<Text style={styles.textSmall}>
-									Reload
 								</Text>
 							</View>	
 						</TouchableWithoutFeedback>
 					</View>
 					<View>
-						<TouchableWithoutFeedback
-							onPress={() => this.clearSearchQuery()}
-						>
+						<TouchableWithoutFeedback>
 							<View>
 								<Text style={styles.textLarge}>
 									Viewoo
@@ -296,11 +295,20 @@ class Viewoo extends Component {
 
 				{loader}
 
-				<ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
+				<ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
+					refreshControl={
+						<RefreshControl
+							enabled={true}
+							refreshing={this.state.refreshing}
+							onRefresh={this.refreshDataAndroid.bind(this)}
+						/>
+					}
+				>
 					<ListView
 						enableEmptySections={true}
 						dataSource={this.state.dataSource}
 						renderRow={this.renderRow.bind(this)}
+	
 					/>
 				</ScrollView>
 
@@ -343,7 +351,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        marginRight: 60,
+        marginRight: 0,
         fontWeight: 'bold',
         color: 'white'
     },
