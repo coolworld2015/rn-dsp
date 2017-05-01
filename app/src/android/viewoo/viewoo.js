@@ -46,6 +46,7 @@ class Viewoo extends Component {
 	
     getItems() {
 		this.setState({
+			serverError: false,
             resultsCount: 0,
             recordsCount: 15,
             positionY: 0,
@@ -84,10 +85,6 @@ class Viewoo extends Component {
     }
 
     showDetails(rowData) {
-		this.setState({
-			//showProgress: true
-		});
-
         this.props.navigator.push({
             index: 1,
             data: rowData

@@ -13,7 +13,8 @@ import {
     TextInput,
 	Alert,
 	Image,
-	Dimensions	
+	Dimensions,
+	RefreshControl	
 } from 'react-native';
 
 class Sspsem extends Component {
@@ -31,7 +32,8 @@ class Sspsem extends Component {
             resultsCount: 0,
             recordsCount: 15,
             positionY: 0,
-			searchQuery: ''
+			searchQuery: '',
+			refreshing: false
         };
     }
 
@@ -47,7 +49,8 @@ class Sspsem extends Component {
 			serverError: false,
             resultsCount: 0,
             recordsCount: 15,
-            positionY: 0
+            positionY: 0,
+			searchQuery: ''
         });	
 		
         let url = 'http://dsp1.epomstaging.com/sspendpoints';
@@ -237,20 +240,15 @@ class Sspsem extends Component {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.refreshDataAndroid()}
-                        >
+                        <TouchableWithoutFeedback>
 							<View>
 								<Text style={styles.textSmall}>
-									Reload
 								</Text>
 							</View>	
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={styles.itemWrap}>
-                        <TouchableWithoutFeedback
-                            onPress={() => this.clearSearchQuery()}
-                        >
+                        <TouchableWithoutFeedback>
 							<View>
 								<Text style={styles.textLarge}>
 									SSP Endpoints Manager
@@ -312,13 +310,21 @@ class Sspsem extends Component {
 
                 {loader}
 
-                <ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
-                    <ListView
-                        enableEmptySections={true}
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                    />
-                </ScrollView>
+				<ScrollView onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
+					refreshControl={
+						<RefreshControl
+							enabled={true}
+							refreshing={this.state.refreshing}
+							onRefresh={this.refreshDataAndroid.bind(this)}
+						/>
+					}
+				>
+					<ListView
+						enableEmptySections={true}
+						dataSource={this.state.dataSource}
+						renderRow={this.renderRow.bind(this)}
+					/>
+				</ScrollView>
 
                 <View>
                     <Text style={styles.countFooter}>
@@ -364,7 +370,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        //marginRight: 60,
+        paddingLeft: 40,
         fontWeight: 'bold',
         color: 'white'
     },
