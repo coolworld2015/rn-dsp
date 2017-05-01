@@ -50,18 +50,50 @@ class ViewooDetails extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
+				console.log(responseData)
+				let genres, cast, crew;
+					genres = '';
+					cast = '';
+					crew = '';
+					
+				if (responseData.genres[0]) {
+					genres = genres + responseData.genres[0].title;
+				}					
+				if (responseData.genres[1]) {
+					genres = genres + ', ' + responseData.genres[1].title;
+				}					
+				if (responseData.genres[2]) {
+					genres = genres + ', ' + responseData.genres[2].title;
+				}
+				
+				if (responseData.cast[0]) {
+					cast = cast + responseData.cast[0].person.name;
+				}					
+				if (responseData.cast[1]) {
+					cast = cast + ', ' + responseData.cast[1].person.name;
+				}					
+				if (responseData.cast[2]) {
+					cast = cast + ', ' + responseData.cast[2].person.name;
+				}					
+				
+				if (responseData.crew[0]) {
+					crew = crew + responseData.crew[0].name;
+				}					
+				if (responseData.crew[1]) {
+					crew = crew + ', ' + responseData.crew[1].name;
+				}					
+				if (responseData.crew[2]) {
+					crew = crew + ', ' + responseData.crew[2].name;
+				}
+						
                 this.setState({
                     description: responseData.description,
                     date: responseData.release_date.split('T')[0],
                     year: responseData.year,
 
-					genres: responseData.genres[0].title + 
-						', ' + responseData.genres[1].title,
-					cast: responseData.cast[0].person.name + 
-						', ' + responseData.cast[1].person.name +
-						', ' + responseData.cast[2].person.name,
-					crew: responseData.crew[0].name +
-						', ' + responseData.crew[1].name,		
+					genres: genres,
+					cast: cast,
+					crew: crew
                 });
             })
             .catch((error) => {
