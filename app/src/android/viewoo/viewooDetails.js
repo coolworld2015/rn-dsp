@@ -52,7 +52,16 @@ class ViewooDetails extends Component {
             .then((responseData) => {
                 this.setState({
                     description: responseData.description,
-                    date: responseData.release_date.split('T')[0]
+                    date: responseData.release_date.split('T')[0],
+                    year: responseData.year,
+
+					genres: responseData.genres[0].title + 
+						', ' + responseData.genres[1].title,
+					cast: responseData.cast[0].person.name + 
+						', ' + responseData.cast[1].person.name +
+						', ' + responseData.cast[2].person.name,
+					crew: responseData.crew[0].name +
+						', ' + responseData.crew[1].name,		
                 });
             })
             .catch((error) => {
@@ -140,10 +149,29 @@ class ViewooDetails extends Component {
                         </View>
 
                         <View style={styles.itemBlock}>
-							<Text style={styles.itemText}>
-								{this.state.date}
+							<Text style={styles.itemTextBolder}>
+								{this.state.year}
 							</Text>
                         </View>
+						
+                        <View style={styles.itemBlock}>
+							<Text style={styles.itemTextBolder}>
+								{this.state.genres}
+							</Text>
+                        </View>
+						
+                        <View style={styles.itemBlock}>
+							<Text style={styles.itemTextBolder}>
+								{this.state.crew}
+							</Text>
+                        </View>			
+						
+                        <View style={styles.itemBlock}>
+							<Text style={styles.itemTextBolder}>
+								{this.state.cast}
+							</Text>
+                        </View>
+						
                         <View style={styles.itemBlock}>
 							<Text style={styles.itemText}>
 								{this.state.description}
@@ -207,6 +235,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         marginLeft: 2,
+        color: 'black'
+    },
+    itemTextBolder: {
+        fontSize: 14,
+        textAlign: 'center',
+        margin: 5,
+        marginLeft: 2,
+		fontWeight: 'bold',
         color: 'black'
     },
 	itemWrap: {

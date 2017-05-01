@@ -91,7 +91,7 @@ class Viewoo extends Component {
     }
 
     renderRow(rowData) {
-		let url, image;
+		let url, image, rating;
 			url = 'http://viewoo.tv' + rowData.poster.middle_path;
 			image = <Image
 				source={{uri: url}}
@@ -104,7 +104,13 @@ class Viewoo extends Component {
 					marginBottom: -5,
 				}}
 			/>;
-
+			
+			if (rowData.rating !== 0) {
+				rating = rowData.rating;
+			} else {
+				rating = '';
+			}
+			
         return (
             <TouchableHighlight
                 onPress={() => this.showDetails(rowData)}
@@ -115,6 +121,9 @@ class Viewoo extends Component {
                     <View style={styles.itemWrap}>
                         <Text style={{backgroundColor: '#fff', fontWeight: 'bold', color: 'black'}}>
                             {rowData.title}
+                        </Text>                        
+						<Text style={{backgroundColor: '#fff', fontWeight: 'bold', color: 'black'}}>
+                            {rating}
                         </Text>
                     </View>
                 </View>
