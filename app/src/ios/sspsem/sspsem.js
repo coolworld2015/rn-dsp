@@ -10,7 +10,10 @@ import {
     ListView,
     ScrollView,
     ActivityIndicator,
-    TextInput
+    TextInput,
+    Image,
+    Dimensions,
+    Alert
 } from 'react-native';
 
 import SspsemDetails from './sspsemDetails';
@@ -27,12 +30,16 @@ class Sspsem extends Component {
             dataSource: ds.cloneWithRows([]),
             showProgress: true,
             resultsCount: 0,
-            recordsCount: 25,
-            positionY: 0
+            recordsCount: 15,
+            positionY: 0,
+            searchQuery: ''
         };
     }
 
     componentDidMount() {
+        this.setState({
+            width: Dimensions.get('window').width
+        });
         this.getItems();
     }
 
@@ -49,7 +56,7 @@ class Sspsem extends Component {
             .then((responseData) => {
 
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.slice(0, 25)),
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.slice(0, 15)),
                     resultsCount: responseData.length,
                     responseData: responseData,
                     filteredItems: responseData
@@ -71,6 +78,10 @@ class Sspsem extends Component {
         this.props.navigator.push({
             title: rowData.name,
             component: SspsemDetails,
+            rightButtonTitle: 'Delete',
+            onRightButtonPress: () => {
+                this.deleteItemDialog();
+            },
             passProps: {
                 data: rowData
             }
@@ -84,9 +95,25 @@ class Sspsem extends Component {
                 underlayColor='#ddd'
             >
                 <View style={styles.row}>
-                    <Text style={styles.rowText}>
-                        {rowData.name} - {rowData.status}
-                    </Text>
+                    <View style={styles.textBlock}>
+                        <Text style={styles.textItemBold}>
+                            {rowData.name}
+                        </Text>
+                        <Text style={styles.textItemBold}>
+                            {rowData.status}
+                        </Text>
+
+
+                        <Text style={styles.textItem}>
+                            Key: {rowData.key.toString()}
+                        </Text>
+                        <Text style={styles.textItem}>
+                            Version: {rowData.version.toString()}
+                        </Text>
+                        <Text style={styles.textItem}>
+                            SSP ID: {rowData.sspId.toString()}
+                        </Text>
+                    </View>
                 </View>
             </TouchableHighlight>
         );
@@ -101,7 +128,7 @@ class Sspsem extends Component {
             this.setState({
                 showProgress: true,
                 resultsCount: 0,
-                recordsCount: 25,
+                recordsCount: 15,
                 positionY: 0,
                 searchQuery: ''
             });
@@ -120,11 +147,11 @@ class Sspsem extends Component {
         positionY = this.state.positionY;
         items = this.state.filteredItems.slice(0, recordsCount);
 
-        if (event.nativeEvent.contentOffset.y >= positionY - 10) {
+        if (event.nativeEvent.contentOffset.y >= positionY) {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
                 recordsCount: recordsCount + 10,
-                positionY: positionY + 500
+                positionY: positionY + 400
             });
         }
     }
@@ -144,9 +171,21 @@ class Sspsem extends Component {
         })
     }
 
+    deleteItemDialog() {
+        Alert.alert(
+            'Information.',
+            'This action is under construction.',
+            [
+                {
+                    text: 'OK', onPress: () => {}
+                },
+            ]
+        );
+    }
+
     clearSearchQuery() {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.state.responseData.slice(0, 25)),
+            dataSource: this.state.dataSource.cloneWithRows(this.state.responseData.slice(0, 15)),
             resultsCount: this.state.responseData.length,
             filteredItems: this.state.responseData,
             positionY: 0,
@@ -156,7 +195,7 @@ class Sspsem extends Component {
     }
 
     render() {
-        let errorCtrl, loader;
+        let errorCtrl, loader, image;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -173,15 +212,53 @@ class Sspsem extends Component {
             </View>;
         }
 
+        if (this.state.searchQuery.length > 0) {
+            image = <Image
+                source={require('../../../img/cancel.png')}
+                style={{
+                    height: 20,
+                    width: 20,
+                    marginTop: 10
+                }}
+            />;
+        }
+
         return (
             <View style={styles.container}>
-                <View style={styles.search}>
-                    <TextInput
-                        style={styles.textInput}
-                        onChangeText={this.onChangeText.bind(this)}
-                        value={this.state.searchQuery}
-                        placeholder="Search here">
-                    </TextInput>
+                <View style={styles.iconForm}>
+                    <View>
+                        <TextInput
+                            onChangeText={this.onChangeText.bind(this)}
+                            style={{
+                                height: 45,
+                                padding: 5,
+                                backgroundColor: 'white',
+                                borderWidth: 3,
+                                borderColor: 'white',
+                                borderRadius: 0,
+                                width: this.state.width * .90,
+                            }}
+                            value={this.state.searchQuery}
+                            placeholder="Search here">
+                        </TextInput>
+                    </View>
+                    <View style={{
+                        height: 45,
+                        backgroundColor: 'white',
+                        borderWidth: 3,
+                        borderColor: 'white',
+                        marginLeft: -5,
+                        paddingLeft: 5,
+                        width: this.state.width * .10,
+                    }}>
+                        <TouchableWithoutFeedback
+                            onPress={() => this.clearSearchQuery()}
+                        >
+                            <View>
+                                {image}
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
                 </View>
 
                 {errorCtrl}
@@ -214,7 +291,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginTop: 64
+    },
+    iconForm: {
+        flexDirection: 'row',
+        borderColor: 'lightgray',
+        borderWidth: 3
     },
     header: {
         flexDirection: 'row',
@@ -235,10 +318,18 @@ const styles = StyleSheet.create({
         borderColor: 'lightgray',
         borderRadius: 0,
     },
+    textItemBold: {
+        fontWeight: 'bold',
+        color: 'black'
+    },
+    textItem: {
+        color: 'black'
+    },
     row: {
         flex: 1,
         flexDirection: 'row',
-        padding: 20,
+        padding: 5,
+        paddingLeft: 20,
         alignItems: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,

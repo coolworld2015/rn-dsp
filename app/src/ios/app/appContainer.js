@@ -77,6 +77,10 @@ class AppContainer extends Component {
                         initialRoute={{
                             component: Sspsem,
                             title: 'SSP Endpoints Manager',
+                            rightButtonTitle: 'New',
+                            onRightButtonPress: () => {
+                                this.deleteItemDialog();
+                            }
                         }}
                     />
                 </TabBarIOS.Item>

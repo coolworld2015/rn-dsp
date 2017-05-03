@@ -171,6 +171,14 @@ class SspsemDetails extends Component {
                             </View>
                         </View>
 
+                        <TouchableHighlight
+                            onPress={() => this.goBack()}
+                            style={styles.button}>
+                            <Text style={styles.buttonText}>
+                                Submit
+                            </Text>
+                        </TouchableHighlight>
+
                     </View>
                 </ScrollView>
             </View>
@@ -202,7 +210,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        marginRight: 40,
+        marginRight: 20,
         fontWeight: 'bold',
         color: 'white'
     },
@@ -216,17 +224,22 @@ const styles = StyleSheet.create({
     itemBlock: {
         flexDirection: 'row'
     },
+    itemWrap: {
+        flex: 1,
+        flexDirection: 'column',
+        flexWrap: 'wrap'
+    },
     itemTextBold: {
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'left',
-        margin: 10,
+        margin: 4,
         fontWeight: 'bold',
         color: 'black'
     },
     itemText: {
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'left',
-        margin: 10,
+        margin: 4,
         marginLeft: 2,
         color: 'black'
     },
