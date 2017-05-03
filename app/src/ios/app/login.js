@@ -85,14 +85,16 @@ class Login extends Component {
         return (
             <ScrollView style={{backgroundColor: 'whitesmoke'}} keyboardShouldPersistTaps='always'>
                 <View style={styles.container}>
-                    <Image style={styles.logo}
-                           source={require('../../../img/logo.png')}
-                    />
                     <View style={styles.headerContainer}>
                         <Text style={styles.heading}>
                             EPOM-DSP
                         </Text>
                     </View>
+
+                    <Image style={styles.logo}
+                           source={require('../../../img/logo.png')}
+                    />
+
                     <TextInput
                         onChangeText={(text) => this.setState({
                             username: text,
@@ -136,6 +138,13 @@ class Login extends Component {
     }
 
     onLoginPressed() {
+        if (this.state.username === undefined || this.state.username === '' ||
+            this.state.password === undefined || this.state.password === '') {
+            this.setState({
+                badCredentials: true
+            });
+            return;
+        }
         this.props.onLogin();
     }
 }
@@ -152,6 +161,13 @@ const styles = StyleSheet.create({
         height: 150,
         paddingTop: 140,
         borderRadius: 20,
+        marginBottom: 10
+    },
+    headerContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginTop: -10
     },
     heading: {
         fontSize: 30,
@@ -176,7 +192,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#48BBEC',
         borderColor: '#48BBEC',
         alignSelf: 'stretch',
-        marginTop: 10,
+        marginTop: 20,
+        margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5
