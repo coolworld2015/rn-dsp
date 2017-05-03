@@ -95,15 +95,34 @@ class Campaigns extends Component {
     }
 
     renderRow(rowData) {
+        let d = new Date(rowData.updated);
         return (
             <TouchableHighlight
                 onPress={() => this.showDetails(rowData)}
                 underlayColor='#ddd'
             >
                 <View style={styles.row}>
-                    <Text style={{backgroundColor: '#fff', fontWeight: 'bold'}}>
-                        {rowData.name} - {rowData.status.name}
-                    </Text>
+                    <View style={styles.textBlock}>
+                        <Text style={styles.textItemBold}>
+                            {rowData.name}
+                        </Text>
+                        <Text style={styles.textItemBold}>
+                            {rowData.status.name}
+                        </Text>
+
+                        <Text style={styles.textItem}>
+                            Updated: {d.toLocaleString()}
+                        </Text>
+                        <Text style={styles.textItem}>
+                            Impressions: {rowData.impressions.toString()}
+                        </Text>
+                        <Text style={styles.textItem}>
+                            Win rate: {rowData.winRate.toString()}
+                        </Text>
+                        <Text style={styles.textItem}>
+                            Spend: {rowData.spend.toString()}
+                        </Text>
+                    </View>
                 </View>
             </TouchableHighlight>
         );
@@ -297,10 +316,18 @@ const styles = StyleSheet.create({
         borderColor: 'lightgray',
         borderRadius: 0,
     },
+    textItemBold: {
+        fontWeight: 'bold',
+        color: 'black'
+    },
+    textItem: {
+        color: 'black'
+    },
     row: {
         flex: 1,
         flexDirection: 'row',
-        padding: 20,
+        padding: 5,
+        paddingLeft: 20,
         alignItems: 'center',
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,

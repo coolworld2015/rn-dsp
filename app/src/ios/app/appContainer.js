@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {
     TabBarIOS,
     NavigatorIOS,
+    Alert
 } from 'react-native';
 
 import Campaigns from '../campaigns/campaigns';
@@ -24,6 +25,18 @@ class AppContainer extends Component {
         this.props.onLogOut();
     }
 
+    deleteItemDialog() {
+        Alert.alert(
+            'Information.',
+            'This action is under construction.',
+            [
+                {
+                    text: 'OK', onPress: () => {}
+                },
+            ]
+        );
+    }
+
     render() {
         return (
             <TabBarIOS>
@@ -41,7 +54,11 @@ class AppContainer extends Component {
                         ref="campaigns"
                         initialRoute={{
                             component: Campaigns,
-                            title: 'Campaigns'
+                            title: 'Campaigns',
+                            rightButtonTitle: 'New',
+                            onRightButtonPress: () => {
+                                this.deleteItemDialog();
+                            }
                         }}
                     />
                 </TabBarIOS.Item>
