@@ -16,7 +16,7 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {
-            selectedTab: 'Viewoo'
+            selectedTab: 'Campaigns'
         };
     }
 
@@ -64,7 +64,7 @@ class AppContainer extends Component {
                     />
                 </TabBarIOS.Item>
 
-                <TabBarIOS.Item
+{/*                <TabBarIOS.Item
                     title="Demo"
                     icon={require('../../../img/images.png')}
                     selected={this.state.selectedTab === 'Demo'}
@@ -79,9 +79,9 @@ class AppContainer extends Component {
                             title: 'Demo',
                         }}
                     />
-                </TabBarIOS.Item>
+                </TabBarIOS.Item>*/}
 
-                <TabBarIOS.Item
+{/*                <TabBarIOS.Item
                     title="Viewoo"
                     icon={require('../../../img/images.png')}
                     selected={this.state.selectedTab === 'Viewoo'}
@@ -96,7 +96,7 @@ class AppContainer extends Component {
                             title: 'Viewoo',
                         }}
                     />
-                </TabBarIOS.Item>
+                </TabBarIOS.Item>*/}
 
                 <TabBarIOS.Item
                     title="Logout"

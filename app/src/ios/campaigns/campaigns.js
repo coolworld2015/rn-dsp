@@ -10,7 +10,9 @@ import {
     ListView,
     ScrollView,
     ActivityIndicator,
-    TextInput
+    TextInput,
+    Image,
+    Dimensions
 } from 'react-native';
 
 import CampaignDetails from './campaignDetails';
@@ -27,12 +29,16 @@ class Campaigns extends Component {
             dataSource: ds.cloneWithRows([]),
             showProgress: true,
             resultsCount: 0,
-            recordsCount: 25,
-            positionY: 0
+            recordsCount: 15,
+            positionY: 0,
+            searchQuery: ''
         };
     }
 
     componentDidMount() {
+        this.setState({
+            width: Dimensions.get('window').width
+        });
         this.getItems();
     }
 
@@ -49,7 +55,7 @@ class Campaigns extends Component {
             .then((responseData) => {
 
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort).slice(0, 25)),
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.sort(this.sort).slice(0, 15)),
                     resultsCount: responseData.length,
                     responseData: responseData,
                     filteredItems: responseData
@@ -112,7 +118,7 @@ class Campaigns extends Component {
             this.setState({
                 showProgress: true,
                 resultsCount: 0,
-                recordsCount: 25,
+                recordsCount: 15,
                 positionY: 0,
                 searchQuery: ''
             });
@@ -131,12 +137,12 @@ class Campaigns extends Component {
         positionY = this.state.positionY;
         items = this.state.filteredItems.slice(0, recordsCount);
 
-        if (event.nativeEvent.contentOffset.y >= positionY - 10) {
+        if (event.nativeEvent.contentOffset.y >= positionY) {
             console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
                 recordsCount: recordsCount + 10,
-                positionY: positionY + 500
+                positionY: positionY + 400
             });
         }
     }
@@ -158,17 +164,17 @@ class Campaigns extends Component {
 
     clearSearchQuery() {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.state.responseData.slice(0, 25)),
+            dataSource: this.state.dataSource.cloneWithRows(this.state.responseData.slice(0, 15)),
             resultsCount: this.state.responseData.length,
             filteredItems: this.state.responseData,
             positionY: 0,
-            recordsCount: 25,
+            recordsCount: 15,
             searchQuery: ''
         });
     }
 
     render() {
-        let errorCtrl, loader;
+        let errorCtrl, loader, image;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -180,19 +186,58 @@ class Campaigns extends Component {
             loader = <View style={styles.loader}>
                 <ActivityIndicator
                     size="large"
-                    animating={true}/>
+                    animating={true}
+                />
             </View>;
+        }
+
+        if (this.state.searchQuery.length > 0) {
+            image = <Image
+                source={require('../../../img/cancel.png')}
+                style={{
+                    height: 20,
+                    width: 20,
+                    marginTop: 10
+                }}
+            />;
         }
 
         return (
             <View style={styles.container}>
-                <View style={styles.search}>
-                    <TextInput
-                        style={styles.textInput}
-                        onChangeText={this.onChangeText.bind(this)}
-                        value={this.state.searchQuery}
-                        placeholder="Search here">
-                    </TextInput>
+                <View style={styles.iconForm}>
+                    <View>
+                        <TextInput
+                            onChangeText={this.onChangeText.bind(this)}
+                            style={{
+                                height: 45,
+                                padding: 5,
+                                backgroundColor: 'white',
+                                borderWidth: 3,
+                                borderColor: 'white',
+                                borderRadius: 0,
+                                width: this.state.width * .90,
+                            }}
+                            value={this.state.searchQuery}
+                            placeholder="Search here">
+                        </TextInput>
+                    </View>
+                    <View style={{
+                        height: 45,
+                        backgroundColor: 'white',
+                        borderWidth: 3,
+                        borderColor: 'white',
+                        marginLeft: -5,
+                        paddingLeft: 5,
+                        width: this.state.width * .10,
+                    }}>
+                        <TouchableWithoutFeedback
+                            onPress={() => this.clearSearchQuery()}
+                        >
+                            <View>
+                                {image}
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
                 </View>
 
                 {errorCtrl}
@@ -225,7 +270,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginTop: 64
+    },
+    iconForm: {
+        flexDirection: 'row',
+        borderColor: 'lightgray',
+        borderWidth: 3
     },
     header: {
         flexDirection: 'row',
