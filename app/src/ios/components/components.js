@@ -9,7 +9,8 @@ import {
     ScrollView,
     Alert,
     DatePickerIOS,
-    ProgressViewIOS
+    ProgressViewIOS,
+    SegmentedControlIOS
 } from 'react-native';
 
 class AllRNComponents extends Component {
@@ -70,6 +71,14 @@ class AllRNComponents extends Component {
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.form}>
+
+                        <SegmentedControlIOS
+                            values={['One', 'Two', 'Three']}
+                            selectedIndex={this.state.selectedIndex}
+                            onChange={(event) => {
+                                this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+                            }}
+                        />
 
                         <ProgressViewIOS style={styles.progressView} progress={0.5}/>
                         <ProgressViewIOS style={styles.progressView} progressTintColor="yellow"
