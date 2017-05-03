@@ -20,7 +20,7 @@ class App extends Component {
 		});
 		
         this.state = {
-            isLoggedIn: true
+            isLoggedIn: false
         };
 		
         window.appConfig = {
