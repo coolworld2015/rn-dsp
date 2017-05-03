@@ -191,7 +191,7 @@ class CampaignDetails extends Component {
                             onPress={() => this.goBack()}
                             style={styles.button}>
                             <Text style={styles.buttonText}>
-                                Back
+                                Submit
                             </Text>
                         </TouchableHighlight>
 

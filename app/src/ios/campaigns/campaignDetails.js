@@ -20,10 +20,10 @@ class CampaignDetails extends Component {
             name: props.data.name,
             updated: d.toLocaleString(),
             status: props.data.status.name,
-            winRate: props.data.winRate,
-            spend: props.data.spend,
-            impressions: props.data.impressions,
-            creatives: props.data.creatives
+            winRate: props.data.winRate.toString(),
+            spend: props.data.spend.toString(),
+            impressions: props.data.impressions.toString(),
+            creatives: props.data.creatives.toString()
         };
     }
 
@@ -128,10 +128,11 @@ class CampaignDetails extends Component {
                             onPress={() => this.goBack()}
                             style={styles.button}>
                             <Text style={styles.buttonText}>
-                                Back
+                                Submit
                             </Text>
                         </TouchableHighlight>
 
+                        <Text>{this.state.bugANDROID}</Text>
                     </View>
                 </ScrollView>
             </View>
@@ -144,6 +145,28 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'white'
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#48BBEC',
+        borderWidth: 0,
+        borderColor: 'whitesmoke'
+    },
+    textSmall: {
+        fontSize: 16,
+        textAlign: 'center',
+        margin: 14,
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    textLarge: {
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10,
+        marginRight: 20,
+        fontWeight: 'bold',
+        color: 'white'
     },
     form: {
         flex: 1,
@@ -161,16 +184,16 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     itemTextBold: {
-        fontSize: 20,
+        fontSize: 18,
         textAlign: 'left',
-        margin: 10,
+        margin: 5,
         fontWeight: 'bold',
         color: 'black'
     },
     itemText: {
-        fontSize: 20,
+        fontSize: 18,
         textAlign: 'left',
-        margin: 10,
+        margin: 5,
         marginLeft: 2,
         color: 'black'
     },
@@ -188,7 +211,16 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
         fontWeight: 'bold'
+    },
+    loader: {
+        marginTop: 20
+    },
+    error: {
+        color: 'red',
+        paddingTop: 10,
+        textAlign: 'center'
     }
 });
+
 
 export default CampaignDetails;

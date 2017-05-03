@@ -12,7 +12,8 @@ import {
     ActivityIndicator,
     TextInput,
     Image,
-    Dimensions
+    Dimensions,
+    Alert
 } from 'react-native';
 
 import CampaignDetails from './campaignDetails';
@@ -84,10 +85,26 @@ class Campaigns extends Component {
         return 0;
     }
 
+    deleteItemDialog() {
+        Alert.alert(
+            'Information.',
+            'This action is under construction.',
+            [
+                {
+                    text: 'OK', onPress: () => {}
+                },
+            ]
+        );
+    }
+
     showDetails(rowData) {
         this.props.navigator.push({
             title: rowData.name,
             component: CampaignDetails,
+            rightButtonTitle: 'Delete',
+            onRightButtonPress: () => {
+                this.deleteItemDialog();
+            },
             passProps: {
                 data: rowData
             }
